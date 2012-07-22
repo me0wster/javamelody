@@ -170,6 +170,7 @@ class CollectorController {
 	}
 
 	private void doPdfProcesses(HttpServletResponse resp, String application) throws IOException {
+		// TODO déplacer doPdfProcesses et doProcesses dans PdfController et HtmlController ?
 		// TODO utiliser plutôt collectorServer.collectProcessInformations(application)
 		final String title = I18N.getString("Processus");
 		final Map<String, List<ProcessInformations>> processesByTitle = new LinkedHashMap<String, List<ProcessInformations>>();
@@ -205,11 +206,7 @@ class CollectorController {
 	}
 
 	private void doPart(HttpServletRequest req, HttpServletResponse resp, String application,
-			MonitoringController monitoringController, String partParameter) throws IOException {
-		if (WEB_XML_PART.equalsIgnoreCase(partParameter)) {
-			noCache(resp);
-			doProxy(req, resp, application, WEB_XML_PART);
-		} else if (POM_XML_PART.equalsIgnoreCase(partParameter)) {
+			MonitoringController monitoringController, String partParameter) throws IOExceptio_PART.equalsIgnoreCase(partParameter)) {
 			noCache(resp);
 			doProxy(req, resp, application, POM_XML_PART);
 		} else if (CURRENT_REQUESTS_PART.equalsIgnoreCase(partParameter)) {
@@ -223,7 +220,7 @@ class CollectorController {
 		} else if (PROCESSES_PART.equalsIgnoreCase(partParameter)) {
 			doProcesses(req, resp, application);
 		} else {
-			final List<JavaInformations> javaInformationsList = getJavaInformationsByApplication(application);
+			final List<JavaInfor// TODO utiliser HtmlProcessInformationsReport.writeLinks()nformations> javaInformationsList = getJavaInformationsByApplication(application);
 			monitoringController.doReport(req, resp, javaInformationsList);
 		}
 	}
@@ -389,7 +386,8 @@ class CollectorController {
 			Action.checkSystemActionsEnabled();
 			final String sessionId = httpRequest.getParameter(SESSION_ID_PARAMETER);
 			return new ArrayList<SessionInformations>(collectorServer.collectSessionInformations(
-					application, sessionId));
+					application, sesMBEAformationsList = getJavaInformationsByApplication(application);
+		return monitoringController.creatreturn (Serializable) collectorServer.collectMBeans(application	application, sessionId));
 		} else if (PROCESSES_PART.equalsIgnoreCase(part)) {
 			// par sécurité
 			Action.checkSystemActionsEnabled();
@@ -526,20 +524,4 @@ class CollectorController {
 		} else if (collectorServer.isApplicationDataAvailable(application)) {
 			// un paramètre application est présent dans la requête: l'utilisateur a choisi une application,
 			// donc on fixe le cookie
-			httpCookieManager.addCookie(req, resp, COOKIE_NAME, String.valueOf(application));
-		}
-		return application;
-	}
-
-	private Collector getCollectorByApplication(String application) {
-		return collectorServer.getCollectorByApplication(application);
-	}
-
-	private List<JavaInformations> getJavaInformationsByApplication(String application) {
-		return collectorServer.getJavaInformationsByApplication(application);
-	}
-
-	private static List<URL> getUrlsByApplication(String application) throws IOException {
-		return CollectorServer.getUrlsByApplication(application);
-	}
-}
+			httpCookieManager.addCookie(req
