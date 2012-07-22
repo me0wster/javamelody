@@ -55,7 +55,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -142,9 +141,7 @@ class CollectorController {
 			doJmxValue(req, resp, application, req.getParameter(JMX_VALUE));
 		} else if (TransportFormat.isATransportFormat(formatParameter)) {
 			doCompressedSerializable(req, resp, application, monitoringController);
-		} else if ("pdf".equalsIgnoreCase(formatParameter)) {
-			doPdf(req, resp, application, monitoringController);
-		} else if (partParameter == null) {
+		} else if (partParameter == null || "pdf".equalsIgnoreCase(formatParameter)) {
 			// la récupération de javaInformationsList doit être après forwardActionAndUpdateData
 			// pour être à jour
 			final List<JavaInformations> javaInformationsList = getJavaInformationsByApplication(application);
@@ -154,27 +151,7 @@ class CollectorController {
 		}
 	}
 
-	private void doPdf(HttpServletRequest req, HttpServletResponse resp, String application,
-			MonitoringController monitoringController) throws IOException {
-		if (PROCESSES_PART.equalsIgnoreCase(req.getParameter(PART_PARAMETER))) {
-			monitoringController.addPdfContentTypeAndDisposition(req, resp);
-			try {
-				doPdfProcesses(resp, application);
-			} finally {
-				resp.getOutputStream().flush();
-			}
-		} else {
-			final List<JavaInformations> javaInformationsList = getJavaInformationsByApplication(application);
-			monitoringController.doReport(req, resp, javaInformationsList);
-		}
-	}
-
-	private void doPdfProcesses(HttpServletResponse resp, String application) throws IOException {
-		// TODO déplacer doPdfProcesses et doProcesses dans PdfController et HtmlController ?
-		// TODO utiliser plutôt collectorServer.collectProcessInformations(application)
-		final String title = I18N.getString("Processus");
-		final Map<String, List<ProcessInformations>> processesByTitle = new LinkedHashMap<String, List<ProcessInformations>>();
-		for (final URL url : getUrlsByApplication(application)) {
+	private void do	for (final URL url : getUrlsByApplication(application)) {
 			final URL proxyUrl = new URL(url.toString() + '&' + PART_PARAMETER + '='
 					+ PROCESSES_PART);
 			final List<ProcessInformations> processes = new LabradorRetriever(proxyUrl).call();
@@ -210,31 +187,11 @@ class CollectorController {
 			noCache(resp);
 			doProxy(req, resp, application, POM_XML_PART);
 		} else if (CURRENT_REQUESTS_PART.equalsIgnoreCase(partParameter)) {
-			doMultiHtmlProxy(req, resp, application, CURRENT_REQUESTS_PART, "Requetes_en_cours",
-					null, "hourglass.png");
-		} else if (MBEANS_PART.equalsIgnoreCase(partParameter)) {
-			doMultiHtmlProxy(req, resp, application, MBEANS_PART, "MBeans", null, "mbeans.png");
-		} else if (CONNECTIONS_PART.equalsIgnoreCase(partParameter)) {
-			doMultiHtmlProxy(req, resp, application, CONNECTIONS_PART, "Connexions_jdbc_ouvertes",
-					"connexions_intro", "db.png");
-		} else if (PROCESSES_PART.equalsIgnoreCase(partParameter)) {
-			doProcesses(req, resp, application);
-		} else {
-			final List<JavaInfornew HtmlProcessInformationsReport(new ArrayList<ProcessInformations>(), writer)
-				.writeLinks();
-		// TODO utiliser plutôt collectorServer.collectProcessInformations(application)
-		final String title = I18N.getString("Processusaction_refresh.png' alt='#Actualiser#'/> #Actualiser#</a>",
-				writer);
-		writer.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-		I18N.writelnTo("<a href='?part=processes&amp;format=pdf' title='#afficher_PDF#'>", writer);
-		I18N.writelnTo("<img src='?resource=pdf.png' alt='#PDF#'/> #PDF#</a>", writer);
-		writer.write("</div>");
-
-		// TODO utiliser plutôt collectorServer.collectProcessInformations(application)
-
-		final String title = I18N.getString("Processus");
-		for (final URL url : getUrlsByApplication(application)) {
-			final String htmlTitle = "<h3><img width='24' height='24' src='?resource=processes.png' alt='"
+			doMu{
+	R);
+			final Collector collector = getCollectorByApplication(application);
+			final Counter counter = on, MBEANS_PART, "MBeans", null, "mbeans.png");
+		} else if (CONNECTIONS_PART.equalsIgnoreCa htmlTitle = "<h3><img width='24' height='24' src='?resource=processes.png' alt='"
 					+ title + "'/>&nbsp;" + title + " (" + getHostAndPort(url) + ")</h3>";
 			writer.write(htmlTitle);
 			writer.flush();
