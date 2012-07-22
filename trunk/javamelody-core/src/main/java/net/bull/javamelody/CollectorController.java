@@ -220,25 +220,10 @@ class CollectorController {
 		} else if (PROCESSES_PART.equalsIgnoreCase(partParameter)) {
 			doProcesses(req, resp, application);
 		} else {
-			final List<JavaInfor// TODO utiliser HtmlProcessInformationsReport.writeLinks()nformations> javaInformationsList = getJavaInformationsByApplication(application);
-			monitoringController.doReport(req, resp, javaInformationsList);
-		}
-	}
-
-	private void doProcesses(HttpServletRequest req, HttpServletResponse resp, String application)
-			throws IOException {
-		final PrintWriter writer = createWriterFromOutputStream(resp);
-		final HtmlReport htmlReport = createHtmlReport(req, resp, writer, application);
-		htmlReport.writeHtmlHeader();
-		writer.write("<div class='noPrint'>");
-		I18N.writelnTo(
-				"<a href='javascript:history.back()'><img src='?resource=action_back.png' alt='#Retour#'/> #Retour#</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
-				writer);
-		writer.write("<a href='?part=");
-		writer.write(PROCESSES_PART);
-		writer.write("'>");
-		I18N.writelnTo(
-				"<img src='?resource=action_refresh.png' alt='#Actualiser#'/> #Actualiser#</a>",
+			final List<JavaInfornew HtmlProcessInformationsReport(new ArrayList<ProcessInformations>(), writer)
+				.writeLinks();
+		// TODO utiliser plutôt collectorServer.collectProcessInformations(application)
+		final String title = I18N.getString("Processusaction_refresh.png' alt='#Actualiser#'/> #Actualiser#</a>",
 				writer);
 		writer.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 		I18N.writelnTo("<a href='?part=processes&amp;format=pdf' title='#afficher_PDF#'>", writer);
