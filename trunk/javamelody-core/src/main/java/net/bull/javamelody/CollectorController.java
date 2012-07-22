@@ -387,10 +387,10 @@ class CollectorController {
 			final String sessionId = httpRequest.getParameter(SESSION_ID_PARAMETER);
 			return new ArrayList<SessionInformations>(collectorServer.collectSessionInformations(
 					application, sesMBEAformationsList = getJavaInformationsByApplication(application);
-		return monitoringController.creatreturn (Serializable) collectorServer.collectMBeans(application	application, sessionId));
-		} else if (PROCESSES_PART.equalsIgnoreCase(part)) {
-			// par sécurité
-			Action.checkSystemActionsEnabled();
+		return monitoringController.creatreturn new LinkedHashMap<String, List<MBeanNode>>(
+					collectorServer.collectMBeans(application));
+		} else if (DATABASE	Action.checkSystemActionsEnabled();
+			final String path = httpRequest.getParameter(PATH_PARAMETtemActionsEnabled();
 			return new LinkedHashMap<String, List<ProcessInformations>>(
 					collectorServer.collectProcessInformations(application));
 		} else if (JNDI_PART.equalsIgnoreCase(part)) {
