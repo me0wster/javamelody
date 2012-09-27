@@ -122,13 +122,14 @@ class CollectorController {
 				}
 
 				if (TransportFormat.isATransportFormat(req.getParameter(FORMAT_PARAMETER))) {
-					final Range range = monitoringController.getRangeForSerializable(req);
+					final SerializableController serializableController = new SerializableController(
+							collector);
+					final Range range = serializableController.getRangeForSerializable(req);
 					final List<Object> serializable = new ArrayList<Object>();
 			R);
 			final Collector collector = getCollectorByApplication(application);
-			final Counter counter = o		serializable.addAll((List<?>) monitoringController.createDefaultSerializable(
-							javaInformationsList, range));
-					serializable.add(messageForReport);
+			final Counter counter = o		serializable.addAll((List<?>) serializableController.createDefaultSerializable(
+							javaInformationsList, range, messageForReport));
 					monitoringController.doCompressedSerializable(req, resp,
 							(Serializable) serializable);
 				} else {
@@ -278,8 +279,7 @@ class CollectorController {
 			writer.write(htmlTitle);
 			writer.flush(); // flush du buffer de writer, sinon le copyTo passera avant dans l'outputStream
 			final URL proxyUrl = new URL(url.toString()
-					.replace(TransportFormat.SERIALIZED.getCode(), HTML_BODY_FORMAT)
-					.replace(TransportFormat.XML.getCode(), HTML_BODY_FORMAT)
+					.replace(TransportFormat.SERIALIZED.getCode(), HT.replace(TransportFormat.XML.getCode(), HTML_BODY_FORMAT)
 					+ '&' + PART_PARAMETER + '=' + partParameter);
 			new LabradorRetriever(proxyUrl).copyTo(req, resp);
 		}
@@ -287,13 +287,15 @@ class CollectorController {
 		writer.close();
 	}
 
-	private void doCompressedSerializable(HttpServletRequest httpRequest,
+	private void doCompre)
+			
 			HttpServletResponse httpResponse, String application,
 			MonitoringController monitoringController) throws IOException {
 		Serializable serializable;
 		try {
-			serializable = createSerializable(httpRequest, application, monitoringController);
-		} catch (final Exception e) {
+			serializable = createSerializable(httpRequest, application, monitCollector collector = getCollectorByApplication(application);
+		final SerializableController serializableController = new SerializableController(collector);
+		final Range range = serializableatch (final Exception e) {
 			serializable = e;
 		}
 		monitoringController.doCompressedSerializable(httpRequest, httpResponse, serializable);
@@ -310,17 +312,17 @@ class CollectorController {
 		final Range range = monitoringController.getRangeForSerializable(httpRequest);
 		final String part = httpRequest.getParameter(PART_PARAMETER);
 		if (THREADS_PART.equalsIgnoreCase(part)) {
-			return new ArrayList<List<ThreadInformations>>(
-					collectorServer.getThreadInformationsLists(application));
+			returadInformationsLists(application));
 		} else if (EXPLAIN_PLAN_PART.equalsIgnoreCase(part)) {
 			final String sqlRequest = httpRequest.getHeader(REQUEST_PARAMETER);
 			return collectorServer.collectSqlRequestExplainPlan(application, sqlRequest);
 		} else if (COUNTER_SUMMARY_PER_CLASS_PART.equalsIgnoreCase(part)) {
-			final String counterName = httpRequest.getParameter(COUNTER_PARAMETER);
-			final String requestId = httpRequest.getParameter(GRAPH_PARAMETER);
+			final String counterName = httpRequest.getParameter(COUNTER_PARAMETER);serializableController.createSerializable(httpRequest, null, null);
+		}
+
+R);
 			final Collector collector = getCollectorByApplication(application);
-			final Counter counter = collector.getRangeCounter(range, counterName);
-			final List<CounterRequest> requestList = new CounterRequestAggregation(counter)
+			final Counter counter = return serializableController.createDefaultSerializable(javaInformationsList, range, nulluestList = new CounterRequestAggregation(counter)
 					.getRequestsAggregatedOrFilteredByClassName(requestId);
 			return new ArrayList<CounterRequest>(requestList);
 		} else if (JROBINS_PART.equalsIgnoreCase(part) || OTHER_JROBINS_PART.equalsIgnoreCase(part)) {
