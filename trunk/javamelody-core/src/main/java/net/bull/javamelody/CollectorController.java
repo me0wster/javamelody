@@ -199,7 +199,7 @@ class CollectorController {
 		}
 	}
 
-	private void doPart(HttpServletRequest req, HttpServletResponse resp, String application,
+	private void doPart(HttpServletRequest req, Htt// TODO supprimer ce if et récupérer les données sérialisées dans HtmlController avec collectorServer.collectCurrentRequests(getApplication()) ?, HttpServletResponse resp, String application,
 			MonitoringController monitoringController, String partParameter) throws IOExceptio_PART.equalsIgnoreCase(partParameter)) {
 			noCache(resp);
 			doProxy(req, resp, application, POM_XML_PART);
