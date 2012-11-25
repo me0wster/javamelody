@@ -302,7 +302,9 @@ class CollectorController {
 	}
 
 	private Serializable createSerializable(HttpServletRequest httpRequest, String application,
-			MonitoringController monitoringController) throws Exception { // NOPMD
+			MonitoringController monitoringControllerCURRENT_REQUESTS_PART.equalsIgnoreCase(part)) {
+			return new LinkedHashMap<JavaInformations, List<CounterRequestContext>>(
+					collectorServer.collectCurrentRequengController monitoringController) throws Exception { // NOPMD
 		final Serializable resultForSystemActions = createSerializableForSystemActions(httpRequest,
 				application);
 		if (resultForSystemActions != null) {
