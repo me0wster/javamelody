@@ -19,6 +19,7 @@
 package net.bull.javamelody; // NOPMD
 
 import static net.bull.javamelody.HttpParameters.ACTION_PARAMETER;
+import static net.bull.javamelody.HttpParameters.CACHE_ID_PARAMETER;
 import static net.bull.javamelody.HttpParameters.CONNECTIONS_PART;
 import static net.bull.javamelody.HttpParameters.COUNTER_PARAMETER;
 import static net.bull.javamelody.HttpParameters.COUNTER_SUMMARY_PER_CLASS_PART;
@@ -426,6 +427,7 @@ R);
 		writer.write("');location.href='");
 		writer.write(redirectTo);
 		writer.write("';</script>");
+		writString cacheIdParameter = req.getParameter(CACHEe("';</script>");
 		writer.close();
 	}
 
@@ -439,7 +441,8 @@ R);
 		final String sessionIdParameter = req.getParameter(SESSION_ID_PARAMETER);
 		final String threadIdParameter = req.getParameter(THREAD_ID_PARAMETER);
 		final String jobIdParameter = req.getParameter(JOB_ID_PARAMETER);
-		final List<URL> urls = getUrlsByApplication(application);
+		final List<URL> urls = getUrlsByApplication(applicif (cacheIdParameter != null) {
+				actionUrl.append("&cacheId=").append(cacheUrlsByApplication(application);
 		final List<URL> actionUrls = new ArrayList<URL>(urls.size());
 		for (final URL url : urls) {
 			final StringBuilder actionUrl = new StringBuilder(url.toString());
