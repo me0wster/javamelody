@@ -19,6 +19,7 @@
 package net.bull.javamelody; // NOPMD
 
 import static net.bull.javamelody.HttpParameters.ACTION_PARAMETER;
+import static net.bull.javamelody.HttpParameters.APPLICATIONS_PART;
 import static net.bull.javamelody.HttpParameters.CACHE_ID_PARAMETER;
 import static net.bull.javamelody.HttpParameters.CONNECTIONS_PART;
 import static net.bull.javamelody.HttpParameters.COUNTER_PARAMETER;
@@ -54,8 +55,10 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -314,7 +317,15 @@ class CollectorController {
 		} else if (EXPLAIN_PLAN_PART.equalsIgnoreCase(part)) {
 			final String sqlRequest = httpRequest.getHeader(REQUEST_PARAMETER);
 			return collectorServer.collectSqlRequestExplainPlan(application, sqlRequest);
-		} else if (COUNTER_SUMMARY_PER_CLASS_PART.equalsIgnoreCase(part)) {
+		} else if (COUNTER_SUMMARY_PAPPLICATIONS_PART.equalsIgnoreCase(part)) {
+			// list all applications, with last exceptions if not available,
+			// use ?part=applications&format=json for example
+			final Map<String, Throwable> applications = new HashMap<String, Throwable>();
+			for (final String app : Parameters.getCollectorUrlsByApplications().keySet()) {
+				applications.put(app, null);
+			}
+			applications.putAll(collectorServer.getLastCollectExceptionsByApplication());
+			return new HashMap<String, Throwable>(applicationsCOUNTER_SUMMARY_PER_CLASS_PART.equalsIgnoreCase(part)) {
 			final String counterName = httpRequest.getParameter(COUNTER_PARAMETER);serializableController.createSerializable(httpRequest, null, null);
 		}
 
