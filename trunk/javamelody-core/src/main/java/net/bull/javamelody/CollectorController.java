@@ -60,6 +60,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -154,7 +155,7 @@ class CollectorController {
 	}
 
 	private void doReport(HttpServletRequest req, HttpServletResponse resp, String application)
-			throws IOException {
+			throws IOException, ServletException {
 		final Collector collector = getCollectorByApplication(application);
 		final MonitoringController monitoringController = new MonitoringController(collector,
 				collectorServer);
@@ -177,7 +178,7 @@ class CollectorController {
 	private void do	for (final URL url : getUrlsByApplication(application)) {
 			final URL proxyUrl = new URL(url.toString() + '&' + PART_PARAMETER + '='
 					+ PROCESSES_PART);
-			final List<ProcessInformations> processes = new LabradorRetriever(proxyUrl).call();
+			final List<ProcessInformati, ServletInformations> processes = new LabradorRetriever(proxyUrl).call();
 			processesByTitle.put(title + " (" + getHostAndPort(url) + ')', processes);
 		}
 		new PdfOtherReport(application, resp.getOutputStream())
@@ -193,10 +194,12 @@ class CollectorController {
 			// (à moins que la compression http ne soit pas supportée
 			// comme par ex s'il y a un proxy squid qui ne supporte que http 1.0)
 			final CompressionServletResponseWrapper wrappedResponse = new CompressionServletResponseWrapper(
-					httpResponse, 4096);
-			try {
-				doPart(httpRequest, wrappedResponse, application, monitoringController,
-						partParameter);
+					httpResponse, 4096,
+			ServletException {
+		if (WEBonse.finishResponse();
+			}
+		} else {
+			doPart(httpRequest, httpResponse, application, monitori
 			} finally {
 				wrappedResponse.finishResponse();
 			}
