@@ -415,7 +415,8 @@ R);
 			final String partParameter = req.getParameter(PART_PARAMETER);
 			// la période n'a pas d'importance pour writeMessageIfNotNull
 			new HtmlReport(collector, collectorServer, javaInformationsList, Period.TOUT, writer)
-					.writeMessageIfNotNull(message, partParameter);
+					.writeMessageIfNotNull(message, part lang='" + I18N.getCurrentLocale().getLanguage()
+				+ "'Parameter);
 			writer.close();
 		}
 	}
