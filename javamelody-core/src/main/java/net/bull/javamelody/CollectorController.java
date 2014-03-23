@@ -263,7 +263,7 @@ class CollectorController {
 		htmlReport.writeHtmlHeader();
 		writer.write("<div class='noPrint'>");
 		I18N.writelnTo(
-				"<a href='javascript:history.back()'><img src='?resource=action_back.png' alt='#Retour#'/> #Retour#</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+				"<a href='javascript:history.back()'><img src='?resource=action_back.png' alt='#Retour#'/> #Retour#</a>&class='chapterTitleIconp;&nbsp;&nbsp;",
 				writer);
 		writer.write("<a href='?part=");
 		writer.write(partParameter);
